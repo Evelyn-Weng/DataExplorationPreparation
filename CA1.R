@@ -167,8 +167,24 @@ ggsave('scatter_plot.png', width = 18, height = 6)
   
   
 ## 3.Heatmaps
+library(ggplot2)
+library(dplyr)
+library(scales)
+View(Newcrime2018)
+# change the order by occurred.Time
+Newcrime2018$Occurred.Time <- factor(Newcrime2018$Occurred.Time, levels = unique(Newcrime2018$Occurred.Time))
+# Create time period using cut function
+Newcrime2018$TimePeriod <- cut(as.numeric(Newcrime2018$Occurred.Time), breaks = seq(0, 2400, by = 200), include.lowest = TRUE)
 
-
+# Create a heatmap with 'Neighborhood' on the x-axis, 'TimePeriod' on the y-axis, and color representing the count of incidents
+ggplot(Newcrime2018, aes(x = Neighborhood, y = TimePeriod, fill = after_stat(y))) +
+  geom_tile() +  
+  scale_fill_gradient(name = "Incident Count", trans = "log", low = "green", high = "red") +
+  labs(title = "Heatmap of Incidents by Occurred Time and Neighborhood",
+       x = "Neighborhood",
+       y = "Occurred Time") +
+#  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 50, hjust = 1,size = 5, vjust = 1))
 
 
 
