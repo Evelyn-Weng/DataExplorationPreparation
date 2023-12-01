@@ -30,9 +30,6 @@ View(crime2018)
 sum(is.na(crime2018$Sector))
 summary(crime2018)
 
-sector_
-
-
 # use table to calculate in 'Sector' each value's frequency
 sector_frequency <- table(crime2018$Sector)
 
@@ -48,3 +45,31 @@ sum(is.na(crime2018$Sector))
 Newcrime2018 <- crime2018[, -which(names(crime2018) == 'Beat')]
 View(Newcrime2018)
 Newcrime2018 <- Newcrime2018[1:(nrow(Newcrime2018) -2),]
+
+## generate a plot of the new dataset
+library(ggplot2)
+
+#create a summary table of the precinct distribution
+precinct_summary <- table(Newcrime2018$Precinct)
+
+## convert the summarty table to a dataframe
+precinct_summary_df <- as.data.frame(precinct_summary)
+names(precinct_summary_df) <- c('Precinct', 'Count')
+
+## create a pie chart of each precinct
+ggplot(precinct_summary_df, aes(x= '' , y= Count, fill = Precinct)) +
+  geom_bar(stat = 'identity', width = 1) +
+  coord_polar('y') +
+  labs(title = 'Distribution of Incidents Across Precincts',
+       fill = 'Precinct') +
+  theme_minimal() +
+  theme(legend.position = 'right')
+
+
+
+
+
+
+
+
+
