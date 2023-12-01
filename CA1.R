@@ -89,8 +89,12 @@ names(Newcrime2018)
 ## Using summary function to get all columns of mean, median, minimum, maximum
 summary(Newcrime2018)
 
+## by using psych library to get all columns' standard deviation
+## install.packages('psych')
+library(psych)
 
-
+summary_Newcrime2018 <- describe(Newcrime2018)
+print(summary_Newcrime2018)
 
 
 
