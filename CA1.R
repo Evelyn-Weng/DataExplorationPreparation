@@ -84,7 +84,7 @@ names(Newcrime2018)
 ## 'Report Number' in the real life that be something like Report Id,
 ## "Occurred.Time"(0-2359),"Reported.Time"(0-2359) should be in time format, not recomment to 
 ## calculate the statistical parameters, but since there isn't any better value to do,
-## I will still stick with this to calculate.
+## so I will still stick with those three to calculate.
 
 ## Using summary function to get all columns of mean, median, minimum, maximum
 summary(Newcrime2018)
@@ -95,7 +95,24 @@ library(psych)
 
 summary_Newcrime2018 <- describe(Newcrime2018)
 print(summary_Newcrime2018)
+## also can use sd() to get only one standard deviation
 
+## c) Apply Min-Max Normalization, Z-score Standardization and Robust scalar on the numerical data
+## variables.
+## 1. Apply Min-Max Normalization on "Report.Number" 
+mmnorm.ReportedNumber <- (Newcrime2018$Report.Number-min(Newcrime2018$Report.Number)) /(max(Newcrime2018$Report.Number)-min(Newcrime2018$Report.Number))
+mmnorm.ReportedNumber## the value always between 0-1, and it is.
+
+## 2. Apply Z-score Standardization on"Occurred.Time"
+zscore.OccurredTime <- (Newcrime2018$Occurred.Time-mean(Newcrime2018$Occurred.Time))/sd(Newcrime2018$Occurred.Time)
+zscore.OccurredTime
+
+## 3. Apply Robust scalar on "Reported.Time"
+## using summary to get Q3 and Q1 value again
+summary(Newcrime2018$Reported.Time)
+
+RobustScalarReportedTime <- (Newcrime2018$Reported.Time - mean(Newcrime2018$Reported.Time))/(1808 -  943)
+RobustScalarReportedTime
 
 
 
