@@ -35,22 +35,43 @@ View(crime2018)
 sum(is.na(crime2018$Sector))
 ## summary(crime2018)
 
+## check each column if any empty value, or value not corret
+unique(crime2018$Report.Number)
+unique(crime2018$Occurred.Date)
+unique(crime2018$Occurred.Time)
+unique(crime2018$Reported.Date)
+unique(crime2018$Crime.Subcategory)
+unique(crime2018$Primary.Offense.Description)
+unique(crime2018$Precinct)
+unique(crime2018$Sector)
+unique(crime2018$Neighborhood)
+## there are empty vaule in Precinct and sector
+## replace them by using mode value
+
+
 # use table to calculate in 'Sector' each value's frequency
+Precinct_frequency <- table(crime2018$Precinct)
 sector_frequency <- table(crime2018$Sector)
 
 # find out the mode value
+mode_Precinct <- names(Precinct_frequency)[Precinct_frequency == max(Precinct_frequency)]
 mode_sector <- names(sector_frequency)[sector_frequency == max(sector_frequency)]
 
-# use mode value to replace NA value in Sector
+# use mode value to replace missing value and empty value in Sector
+crime2018$Precinct <- ifelse(is.na(crime2018$Precinct), mode_sector, crime2018$Precinct)
 crime2018$Sector <- ifelse(is.na(crime2018$Sector), mode_sector, crime2018$Sector)
-# check if still have NA value
+# check if still have missing and empty value
 sum(is.na(crime2018$Sector))
+unique(crime2018$Precinct)
+unique(crime2018$Sector)
 
 ## Drop column 'Beat', just keep 10 columns, then have the final Cleaned dataset
 Newcrime2018 <- crime2018[, -which(names(crime2018) == 'Beat')]
 View(Newcrime2018)
-## Drop last 2 NA rows
+## Drop last 2 NA rows, which is empty row
 Newcrime2018 <- Newcrime2018[1:(nrow(Newcrime2018) -2),]
+sum(is.na(Newcrime2018))
+##write.csv(Newcrime2018,'Newcrime2018.csv',row.names = FALSE)
 
 ## generate a plot of the new dataset
 library(ggplot2)
@@ -118,6 +139,12 @@ RobustScalarReportedTime
 ## dataset.
 ##write.csv(Newcrime2018,'Newcrime2018.csv', row.names = FALSE) export new csv file
 ## 1.Line Chart
+ggplot(Newcrime2018, aes(x = Precinct, y = Reported.Date, group = Precinct, color = Precinct)) +
+  geom_line() +
+  labs(title = "Relationship Between Reported Date and Precinct",
+       x = "Reported Date",
+       y = "Precinct")# +
+  #theme_minimal()
 
 ## 2.Scatter
 ggplot(Newcrime2018, aes(x = Crime.Subcategory, y = Occurred.Time)) +
@@ -126,13 +153,11 @@ ggplot(Newcrime2018, aes(x = Crime.Subcategory, y = Occurred.Time)) +
        x = 'Crime.Subcategory',
        y = 'Occurred.Time') +
   ## theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5,size = 8, vjust = 1)) 
 ggsave('scatter_plot.png', width = 18, height = 6)
   ## scale_x_discrete(labels = function(x) ifelse(seq_along(x) %% 2 == 0, "", x))  # Display every second label
   
   
-
-
 ## 3.Heatmaps
 
 
