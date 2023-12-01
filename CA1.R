@@ -114,6 +114,27 @@ summary(Newcrime2018$Reported.Time)
 RobustScalarReportedTime <- (Newcrime2018$Reported.Time - mean(Newcrime2018$Reported.Time))/(1808 -  943)
 RobustScalarReportedTime
 
+## d) Line, Scatter and Heatmaps can be used to show the correlation between the features of the
+## dataset.
+##write.csv(Newcrime2018,'Newcrime2018.csv', row.names = FALSE) export new csv file
+## 1.Line Chart
+## 2.Scatter
+ggplot(Newcrime2018, aes(x = Crime.Subcategory, y = Occurred.Time)) +
+  geom_point() +
+  labs(title = 'Scatter Plot of Crime Subcategory and Occurred Time',
+       x = 'Crime.Subcategory',
+       y = 'Occurred.Time')
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 30, hjust = 0, size = 10, vjust = 0))
+  ## scale_x_discrete(labels = function(x) ifelse(seq_along(x) %% 2 == 0, "", x))  # Display every second label
+  
+  
+
+
+## 3.Heatmaps
+
+
+
 
 
 
