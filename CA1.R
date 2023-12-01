@@ -24,14 +24,16 @@ names(db)
 any(is.na(db))
 ## subdataset
 db$Occurred.Date <- as.Date(db$Occurred.Date, format = "%m/%d/%Y")
-
+db$Reported.Date <- as.Date(db$Reported.Date, format = "%m/%d/%Y")
+View(db)
 # Selecting 2018 year's dataset
 data_2018 <- db[format(db$Occurred.Date, "%Y") == "2018", ]
 crime2018 <- data_2018
+
 # view the dataset
 View(crime2018)
 sum(is.na(crime2018$Sector))
-summary(crime2018)
+## summary(crime2018)
 
 # use table to calculate in 'Sector' each value's frequency
 sector_frequency <- table(crime2018$Sector)
@@ -47,6 +49,7 @@ sum(is.na(crime2018$Sector))
 ## Drop column 'Beat', just keep 10 columns, then have the final Cleaned dataset
 Newcrime2018 <- crime2018[, -which(names(crime2018) == 'Beat')]
 View(Newcrime2018)
+## Drop last 2 NA rows
 Newcrime2018 <- Newcrime2018[1:(nrow(Newcrime2018) -2),]
 
 ## generate a plot of the new dataset
@@ -67,6 +70,26 @@ ggplot(precinct_summary_df, aes(x= '' , y= Count, fill = Precinct)) +
        fill = 'Precinct') +
   theme_minimal() +
   theme(legend.position = 'right')
+
+# b) Calculate the statistical parameters (mean, median, minimum, maximum, and standard deviation)
+# for each of the numerical variables.
+names(Newcrime2018)
+## [1] "Report.Number"               "Occurred.Date"               "Occurred.Time"              
+## [4] "Reported.Date"               "Reported.Time"               "Crime.Subcategory"          
+## [7] "Primary.Offense.Description" "Precinct"                    "Sector"                     
+## [10] "Neighborhood"  
+
+## In this case, "Report.Number"(200800005-2011000011274624),
+## "Occurred.Time"(0-2359),"Reported.Time"(0-2359) are numerical varibale
+## 'Report Number' in the real life that be something like Report Id,
+## "Occurred.Time"(0-2359),"Reported.Time"(0-2359) should be in time format, not recomment to 
+## calculate the statistical parameters, but since there isn't any better value to do,
+## I will still stick with this to calculate.
+
+## Using summary function to get all columns of mean, median, minimum, maximum
+summary(Newcrime2018)
+
+
 
 
 
