@@ -35,7 +35,7 @@ View(crime2018)
 sum(is.na(crime2018$Sector))
 ## summary(crime2018)
 
-## check each column if any empty value, or value not corret
+## check each column if any empty value, or value not correct
 unique(crime2018$Report.Number)
 unique(crime2018$Occurred.Date)
 unique(crime2018$Occurred.Time)
@@ -45,7 +45,7 @@ unique(crime2018$Primary.Offense.Description)
 unique(crime2018$Precinct)
 unique(crime2018$Sector)
 unique(crime2018$Neighborhood)
-## there are empty vaule in Precinct and sector
+## there are empty value in Precinct and sector, and [precinct='M'] and [sector = 9512]
 ## replace them by using mode value
 
 
@@ -53,17 +53,25 @@ unique(crime2018$Neighborhood)
 Precinct_frequency <- table(crime2018$Precinct)
 sector_frequency <- table(crime2018$Sector)
 
-# find out the mode value
+# find out the mode value of precinct and sector
 mode_Precinct <- names(Precinct_frequency)[Precinct_frequency == max(Precinct_frequency)]
 mode_sector <- names(sector_frequency)[sector_frequency == max(sector_frequency)]
 
-# use mode value to replace missing value and empty value in Sector
-crime2018$Precinct <- ifelse(is.na(crime2018$Precinct), mode_sector, crime2018$Precinct)
+# use mode value to replace missing value and empty value, [precinct='M'] and [sector = 9512]
+crime2018$Precinct <- ifelse(is.na(crime2018$Precinct), mode_Precinct, crime2018$Precinct)
+crime2018$Precinct[crime2018$Precinct == ""] <- mode_Precinct
+crime2018$Precinct[crime2018$Precinct == "M"] <- mode_Precinct
+
 crime2018$Sector <- ifelse(is.na(crime2018$Sector), mode_sector, crime2018$Sector)
+crime2018$Sector[crime2018$Sector == ""] <- mode_sector
+crime2018$Sector[crime2018$Sector == "9512"] <- mode_sector
 # check if still have missing and empty value
 sum(is.na(crime2018$Sector))
 unique(crime2018$Precinct)
 unique(crime2018$Sector)
+
+
+##write.csv(crime2018,'crime2018.csv', row.names = FALSE)
 
 ## Drop column 'Beat', just keep 10 columns, then have the final Cleaned dataset
 Newcrime2018 <- crime2018[, -which(names(crime2018) == 'Beat')]
@@ -71,7 +79,7 @@ View(Newcrime2018)
 ## Drop last 2 NA rows, which is empty row
 Newcrime2018 <- Newcrime2018[1:(nrow(Newcrime2018) -2),]
 sum(is.na(Newcrime2018))
-##write.csv(Newcrime2018,'Newcrime2018.csv',row.names = FALSE)
+write.csv(Newcrime2018,'Newcrime2018.csv',row.names = FALSE)
 
 ## generate a plot of the new dataset
 library(ggplot2)
@@ -139,12 +147,12 @@ RobustScalarReportedTime
 ## dataset.
 ##write.csv(Newcrime2018,'Newcrime2018.csv', row.names = FALSE) export new csv file
 ## 1.Line Chart
-ggplot(Newcrime2018, aes(x = Precinct, y = Reported.Date, group = Precinct, color = Precinct)) +
-  geom_line() +
-  labs(title = "Relationship Between Reported Date and Precinct",
-       x = "Reported Date",
-       y = "Precinct")# +
-  #theme_minimal()
+ggplot(Newcrime2018, aes(x = Precinct, group = Reported.Date, color = Reported.Date)) +
+  geom_line(stat = "count") +
+  labs(title = "Reported.Date Incidents Count Over Time for Each Precinct",
+       x = "Precinct",
+       y = "Incidents Count") +
+  theme_minimal()
 
 ## 2.Scatter
 ggplot(Newcrime2018, aes(x = Crime.Subcategory, y = Occurred.Time)) +
