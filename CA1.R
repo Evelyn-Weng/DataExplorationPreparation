@@ -14,3 +14,6 @@ names(db)
 #[10] "Beat"-->categorical                       
 #[11] "Neighborhood"-->categorical
 #In this dataset there isn't any continuous data
+
+## Before plot anything, check if there is any missing value
+any(is.na(db))
