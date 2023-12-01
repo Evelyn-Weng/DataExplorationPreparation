@@ -1,3 +1,6 @@
+## a) Identify which variables are categorical, discrete and continuous in the chosen data set and show
+## using some visualization or plot. Explore whether there are missing values for any of the variables
+
 ## Data Cleaning
 
 db <- read.csv('Crime_Data.csv')
