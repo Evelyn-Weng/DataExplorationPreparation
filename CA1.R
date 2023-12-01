@@ -1,3 +1,5 @@
+## Data Cleaning
+
 db <- read.csv('Crime_Data.csv')
 dim(db)
 names(db)
@@ -25,4 +27,24 @@ data_2018 <- db[format(db$Occurred.Date, "%Y") == "2018", ]
 crime2018 <- data_2018
 # view the dataset
 View(crime2018)
+sum(is.na(crime2018$Sector))
+summary(crime2018)
 
+sector_
+
+
+# use table to calculate in 'Sector' each value's frequency
+sector_frequency <- table(crime2018$Sector)
+
+# find out the mode value
+mode_sector <- names(sector_frequency)[sector_frequency == max(sector_frequency)]
+
+# use mode value to replace NA value in Sector
+crime2018$Sector <- ifelse(is.na(crime2018$Sector), mode_sector, crime2018$Sector)
+# check if still have NA value
+sum(is.na(crime2018$Sector))
+
+## Drop column 'Beat', just keep 10 columns, then have the final Cleaned dataset
+Newcrime2018 <- crime2018[, -which(names(crime2018) == 'Beat')]
+View(Newcrime2018)
+Newcrime2018 <- Newcrime2018[1:(nrow(Newcrime2018) -2),]
