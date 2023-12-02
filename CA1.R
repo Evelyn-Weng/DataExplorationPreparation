@@ -248,4 +248,25 @@ View(Newcrime2018)
 ## easy to coding, improve efficiency
 
 
+library(dplyr)
+## install.packages('factoextra')
+library(stats)
 
+## select columns and create a new dataset named PCAData
+## i dont have enough numeric value, so change Occurred.Time factor to numeric
+Newcrime2018$Occurred.Time <- as.numeric(as.character(Newcrime2018$Occurred.Time))
+selected_columns <- c('Report.Number','Occurred.Time')
+PCAData <- Newcrime2018[, selected_columns]
+View(PCAData)
+##str(Newcrime2018$NewSector)
+##summary(PCAData)
+## check PCA eligibility -+0.3 correlation
+## in ther is 0.5049047 which prety high
+cor(PCAData)
+mean(cor(PCAData))
+
+## Principal component analysis
+PCA = princomp(PCAData)
+
+## PCA Loadings to how was oringal variable are loaded into these
+PCA$loadings
