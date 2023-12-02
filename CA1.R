@@ -175,6 +175,13 @@ View(Newcrime2018)
 Newcrime2018$Occurred.Time <- factor(Newcrime2018$Occurred.Time, levels = unique(Newcrime2018$Occurred.Time))
 # Create time period using cut function
 Newcrime2018$TimePeriod <- cut(as.numeric(Newcrime2018$Occurred.Time), breaks = seq(0, 2400, by = 200), include.lowest = TRUE)
+#check TimePeriod data type
+str(Newcrime2018$TimePeriod)
+
+##Newcrime2018$TimePeriod <- as.numeric(as.character(Newcrime2018$TimePeriod), na.rm = TRUE)
+##View(Newcrime2018)
+##write.csv(Newcrime2018,'test.csv', row.names = FALSE)
+
 
 # Create a heatmap with 'Neighborhood' on the x-axis, 'TimePeriod' on the y-axis, and color representing the count of incidents
 ggplot(Newcrime2018, aes(x = Neighborhood, y = TimePeriod, fill = after_stat(y))) +
@@ -183,8 +190,11 @@ ggplot(Newcrime2018, aes(x = Neighborhood, y = TimePeriod, fill = after_stat(y))
   labs(title = "Heatmap of Incidents by Occurred Time and Neighborhood",
        x = "Neighborhood",
        y = "Occurred Time") +
+  scale_y_discrete(labels = scales::number_format()) +
 #  theme_minimal() +
   theme(axis.text.x = element_text(angle = 50, hjust = 1,size = 5, vjust = 1))
+
+
 
 
 
