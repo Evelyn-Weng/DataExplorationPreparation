@@ -270,3 +270,30 @@ PCA = princomp(PCAData)
 
 ## PCA Loadings to how was oringal variable are loaded into these
 PCA$loadings
+
+## h) What is the purpose of dimensionality reduction? Explore the situations where you can gain the
+## benefit of dimensionality reduction for data analysis#
+
+#install.packages("randomForest")
+library(randomForest)
+
+# Assuming your dataset is named 'your_data'
+# Assuming your target variable is named 'target_variable'
+# Assuming you have both categorical and numeric features
+
+# Create a Random Forest model
+rf_model <- randomForest(NewSector ~ ., data = Newcrime2018, importance = TRUE)
+
+# Extract feature importance scores
+feature_importance <- rf_model$importance
+
+# Order features by importance
+ordered_features <- feature_importance[order(-feature_importance[, "MeanDecreaseGini"]), , drop = FALSE]
+
+# Print or plot the ordered features
+print(ordered_features)
+
+
+## The benefit of dimensionality rection
+## it help to understand easily, and request lower memory space easily to proccessing
+## can help to remove noise, and help a better robust models
