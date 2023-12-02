@@ -198,19 +198,54 @@ ggplot(Newcrime2018, aes(x = Neighborhood, y = TimePeriod, fill = after_stat(x))
 ##  e) Graphics and descriptive understanding should be provided along with Data Exploratory analysis
 ## (EDA). Identify subgroups of features that can explore some interesting facts.
 
+## Visualizing Distributions
+
 ## descriptive statistics
 summary(Newcrime2018)
 
 # Histogram of Occurred.Time
 ggplot(data = Newcrime2018) +
-  geom_bar(mapping = aes(x = TimePeriod)) +
+  geom_bar(mapping = aes(x = Occurred.Time, fill = "blue")) +
   labs(title = "Distribution of Occurred.Time")
 
-  
+## Newcrime2018$ReportedTimePeriod <- cut(as.numeric(Newcrime2018$Reported.Time), breaks = seq(0, 2400, by = 200), include.lowest = TRUE)
 
+hist(Newcrime2018$Occurred.Date,
+     freq = TRUE,
+     xlab = 'Occurred.Date',
+     main = 'Distribution of Occurred.Date',
+     col = 'lightgreen',
+     breaks = 'week',
+    
+     xlim = c(min(Newcrime2018$Occurred.Date), max(Newcrime2018$Occurred.Date)),
 
+# Customize x-axis
+    axis(1, at = seq(min(Newcrime2018$Occurred.Date), max(Newcrime2018$Occurred.Date), by = 'month'),
+     cex.axis = 0.7))# las = 2 for vertical labels)
 
+## overlay multiple histogram in the same plot
+ggplot(Newcrime2018,mapping = aes(x = Occurred.Date, color = Sector)) +
+  geom_freqpoly(binwidth = 0.1) +
+  labs(title = 'Distribution of Occurred.Date and Sector')
 
+## Apply dummy encoding to categorical variables (at least one variable used from the data set) and
+## discuss the benefits of dummy encoding to understand the categorical data.
+library(dummy)
+## check how many variable in sector column
+unique(Newcrime2018$Sector)
+## 17 variables in sector
+##"O","L","F","E","S","K","D","G","M","R","B","J","U","Q","W","N","C"
+## more than 2 variables, will be k-1
+library(fastDummies)
+# Dummy encoding using fastDummies
+Newcrime2018$Sectordummies <- as.data.frame(model.matrix(~ Newcrime2018$Sector -1))
+
+# View the resulting data with the new dummy-encoded columns
+View(Newcrime2018)
+
+## the benefits of dummy encoding
+## Good for machine learning to estimation models, such as linear regression
+## easy to coding, improve efficiency
 
 
 
