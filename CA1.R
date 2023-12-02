@@ -49,7 +49,7 @@ unique(crime2018$Neighborhood)
 ## replace them by using mode value
 
 
-# use table to calculate in 'Sector' each value's frequency
+# use table to calculate in 'Sector' and 'precinct' each value's frequency
 Precinct_frequency <- table(crime2018$Precinct)
 sector_frequency <- table(crime2018$Sector)
 
@@ -195,7 +195,18 @@ ggplot(Newcrime2018, aes(x = Neighborhood, y = TimePeriod, fill = after_stat(x))
   theme(axis.text.x = element_text(angle = 50, hjust = 1,size = 5, vjust = 1))
 ##View(Newcrime2018)
 
+##  e) Graphics and descriptive understanding should be provided along with Data Exploratory analysis
+## (EDA). Identify subgroups of features that can explore some interesting facts.
 
+## descriptive statistics
+summary(Newcrime2018)
+
+# Histogram of Occurred.Time
+ggplot(data = Newcrime2018) +
+  geom_bar(mapping = aes(x = TimePeriod)) +
+  labs(title = "Distribution of Occurred.Time")
+
+  
 
 
 
