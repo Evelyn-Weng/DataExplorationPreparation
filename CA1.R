@@ -277,10 +277,6 @@ PCA$loadings
 #install.packages("randomForest")
 library(randomForest)
 
-# Assuming your dataset is named 'your_data'
-# Assuming your target variable is named 'target_variable'
-# Assuming you have both categorical and numeric features
-
 # Create a Random Forest model
 rf_model <- randomForest(NewSector ~ ., data = Newcrime2018, importance = TRUE)
 
