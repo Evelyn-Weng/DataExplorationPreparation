@@ -286,7 +286,7 @@ feature_importance <- rf_model$importance
 # Order features by importance
 ordered_features <- feature_importance[order(-feature_importance[, "MeanDecreaseGini"]), , drop = FALSE]
 
-# Print or plot the ordered features
+# Print the ordered features
 print(ordered_features)
 
 
