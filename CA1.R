@@ -290,6 +290,6 @@ ordered_features <- feature_importance[order(-feature_importance[, "MeanDecrease
 print(ordered_features)
 
 
-## The benefit of dimensionality rection
+## The benefit of dimensionality reduction
 ## it help to understand easily, and request lower memory space easily to proccessing
 ## can help to remove noise, and help a better robust models
